@@ -6,3 +6,22 @@
   margin-left: 5px;
   position: relative;
 }
+@media (max-width: 800px) {
+  .main div.main-part {
+    display: none;
+  }
+
+  .left-block {
+    width: 100%;
+  }
+
+  .left-block.hidden {
+    width: 0%;
+    display: none;
+  }
+
+  .left-block.hidden + .main-part {
+    display: flex;
+    width: 100%;
+  }
+}

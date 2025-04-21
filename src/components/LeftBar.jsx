@@ -3,13 +3,20 @@ import "../assets/styles/LeftBar.css";
 import Chat from "./Chat";
 import Overlay from "./Overlay";
 
-const Chats = ({ setChatId, chats, chatId, setIsLoginned }) => {
+const Chats = ({ setChatId, chats, chatId, setIsLoginned, hook }) => {
   const [inputChatname, setInputChatname] = useState("");
 
   const [isOverlayOnn, setIsOverlayOnn] = useState(false);
 
+  const [isLeftBarHidden, setIsLeftBarHidden]=hook
+
+  const handleChatClick = (id) => {
+    console.log("Клик по чату с ID:", id);
+    setChatId(id);           
+    setIsLeftBarHidden(true); 
+  };
   return (
-    <div className="left-block">
+    <div className={`left-block ${isLeftBarHidden ? "hidden" : ""}`}>
       <Overlay
         isOverlayOnn={isOverlayOnn}
         setIsOverlayOnn={setIsOverlayOnn}
@@ -47,6 +54,7 @@ const Chats = ({ setChatId, chats, chatId, setIsLoginned }) => {
               key={index}
               id={el.id}
               chat={el}
+              onClick={() => handleChatClick(el.id)}
             />
           ))}
       </div>

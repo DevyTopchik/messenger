@@ -29,3 +29,22 @@
   width: 200px;
   justify-content: space-around;
 }
+.left-top-bar {
+  display: flex;
+  align-items: center;
+}
+
+.back-button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5em;
+  color: white;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+@media (min-width: 801px) {
+  .back-button {
+    display: none;
+  }
+}

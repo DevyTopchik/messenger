@@ -1,10 +1,13 @@
 import React from "react";
 import "../assets/styles/Chat.css";
-const Chat = ({ chat, id, setChatId, chatId }) => {
+const Chat = ({ chat, id, setChatId, chatId, onClick }) => {
   return (
     <div
       className={`chat ${chatId === id ? "clicked" : ""}`}
-      onClick={() => setChatId(id)}
+      onClick={() => {
+        setChatId(id);     
+        onClick?.();       
+      }}
     >
       <img
         src={

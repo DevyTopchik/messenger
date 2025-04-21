@@ -10,6 +10,7 @@ const TopBar = ({
   isEditMode,
   isDeleteMode,
   selectedIdsLen,
+  setIsLeftBarHidden
 }) => {
   const [isHoveredDelete, setIsHoveredDelete] = useState(false);
   const [isHoveredRedact, setIsHoveredRedact] = useState(false);
@@ -55,8 +56,20 @@ const TopBar = ({
   };
 
   return (
+    
     <div className="top-bar">
-      <h1>{chatname}</h1>
+      <div className="left-top-bar">
+        {/* Кнопка ← Назад */}
+        {window.innerWidth <= 800 && (
+          <button
+            className="back-button"
+            onClick={() => setIsLeftBarHidden(false)}
+          >
+            ←
+          </button>
+        )}
+        <h1>{chatname}</h1>
+      </div>
       <div className="options-panel">
         {selectedIdsLen === 1 ? (
           <FaEdit

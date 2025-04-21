@@ -122,6 +122,8 @@ const Main = ({ id, setIsLoginned }) => {
   const [messages, setMessages] = useState([]);
 
   const [chatId, setChatId] = useState();
+  
+  const [isLeftBarHidden, setIsLeftBarHidden] = useState(false);
 
   useEffect(() => {
     if (chats.length > 0 && chatId >= 0 && chatId < chats.length) {
@@ -156,11 +158,13 @@ const Main = ({ id, setIsLoginned }) => {
         chats={chats}
         chatId={chatId}
         setIsLoginned={setIsLoginned}
+        hook={[isLeftBarHidden, setIsLeftBarHidden]}
       />
       <MainPart
         messages={messages}
         setMessages={setMessages}
         chatname={chats.length > 0 ? chats[chatId].chatname : ""}
+        setIsLeftBarHidden={setIsLeftBarHidden}
       />
     </div>
   );
