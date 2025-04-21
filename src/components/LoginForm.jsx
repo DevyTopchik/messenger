@@ -15,7 +15,7 @@ const LoginForm = ({
     console.log(login, password);
     e.target.reset();
 
-    if (login === "devytopchik" && password == 1) {
+    if (login === "devytopchik" && password === '1') {
       console.log(login);
       console.log(password);
 
