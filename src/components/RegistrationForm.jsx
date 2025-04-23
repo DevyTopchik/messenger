@@ -1,19 +1,25 @@
 import React from "react";
 import { FaArrowCircleLeft } from "react-icons/fa";
 import "../assets/styles/RegistrationAndResetForms.css";
+import { registerFetch } from "../api/register";
 
 const RegistrationForm = ({ setIsRegPage }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
-    console.log("Данные формы:", data);
-    if (true) {
-      alert("Успех!");
-      setIsRegPage(false);
-    }
-    e.target.reset();
+    // const data = Object.fromEntries(formData.entries());
+    // console.log("Данные формы:", data);
+    registerFetch(formData)
+      .then(data => {
+        if (data) {
+          console.log(data)
+          alert("Успех!");
+          setIsRegPage(false);
+          e.target.reset();
+
+        }
+      })
   };
 
   return (

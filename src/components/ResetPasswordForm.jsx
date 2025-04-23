@@ -1,19 +1,24 @@
 import React from "react";
 import { FaArrowCircleLeft } from "react-icons/fa";
 import "../assets/styles/RegistrationAndResetForms.css";
+import { resetFetch } from "../api/reset_password";
 
 const ResetPasswordForm = ({ setIsResetPasswordPage }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
-    console.log("Данные формы:", data);
-    if (true) {
-      alert("Успех!");
-      setIsResetPasswordPage(false);
-    }
-    e.target.reset();
+    // const data = Object.fromEntries(formData.entries());
+    // console.log("Данные формы:", data);
+    resetFetch(formData)
+      .then(data => {
+        if (data) {
+          console.log(data)
+          alert("Успех!");
+          setIsResetPasswordPage(false);
+          e.target.reset();
+        }
+      })
   };
 
   return (

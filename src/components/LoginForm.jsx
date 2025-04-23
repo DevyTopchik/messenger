@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../assets/styles/LoginForm.css";
+import { logInFetch } from "../api/log_in";
 
 const LoginForm = ({
   setIsLoginned,
@@ -15,6 +16,7 @@ const LoginForm = ({
     console.log(login, password);
     e.target.reset();
 
+    //logInFetch(https://textchat-ast1.onrender.com/api/auth/login,{...})
     if (login === "devytopchik" && password === '1') {
       console.log(login);
       console.log(password);
