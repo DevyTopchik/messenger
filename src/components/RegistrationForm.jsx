@@ -8,8 +8,6 @@ const RegistrationForm = ({ setIsRegPage }) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
-    // const data = Object.fromEntries(formData.entries());
-    // console.log("Данные формы:", data);
     registerFetch(formData)
       .then(data => {
         if (data) {
@@ -17,9 +15,9 @@ const RegistrationForm = ({ setIsRegPage }) => {
           alert("Успех!");
           setIsRegPage(false);
           e.target.reset();
-
         }
       })
+      .catch(e => alert(e))
   };
 
   return (

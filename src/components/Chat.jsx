@@ -1,18 +1,18 @@
 import React from "react";
 import "../assets/styles/Chat.css";
-const Chat = ({ chat, id, setChatId, chatId }) => {
+const Chat = ({ chat, id, setChatInd, chatInd }) => {
   return (
     <div
-      className={`chat ${chatId === id ? "clicked" : ""}`}
-      onClick={() => setChatId(id)}
+      className={`chat ${chatInd === id ? "clicked" : ""}`}
+      onClick={() => setChatInd(id)}
     >
       <img
         src={
-          chat.iconUrl ? chat.iconUrl : require("../assets/images/images.png")
+          chat.photoUrl ? chat.photoUrl : require("../assets/images/images.png")
         }
         className="user-icon"
       ></img>
-      <p>{chat.chatname}</p>
+      <p>{chat.otherUserLogin}</p>
     </div>
   );
 };

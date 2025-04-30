@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../assets/styles/Messages.css";
+import { deleteMessage } from "../api/delete_message";
 import Message from "./Message";
 
 const Messages = ({
@@ -10,7 +11,7 @@ const Messages = ({
   setIsEditMode,
   setSelectedIdsLen,
   setIsDeleteMode,
-  chatname,
+  chat,
 }) => {
   const [editIndex, setEditIndex] = useState(-1);
   const [selectedMessagesIds, setSelectedMessagesIds] = useState([]);
@@ -18,7 +19,7 @@ const Messages = ({
 
   useEffect(() => {
     setSelectedMessagesIds([]);
-  }, [chatname]);
+  }, [chat]);
 
   useEffect(() => {
     setSelectedIdsLen(selectedMessagesIds.length);
@@ -32,7 +33,24 @@ const Messages = ({
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chatname]);
+  }, [chat]);
+
+  useEffect(() => {
+    if (isDeleteMode && selectedMessagesIds.length > 0) {
+
+      messages
+        .filter((mes, index) => selectedMessagesIds.includes(index))
+        .map(
+          mes => {
+            deleteMessage(mes.id).then(data => {
+              console.log(data)
+            })
+          });
+    }
+
+    setIsDeleteMode(false);
+    setSelectedMessagesIds([]);
+  }, [isDeleteMode]);
 
   return (
     <div className="messages">
@@ -53,7 +71,7 @@ const Messages = ({
           setSelectedMessagesIds={setSelectedMessagesIds}
           selectedMessagesIds={selectedMessagesIds}
           setIsDeleteMode={setIsDeleteMode}
-          chatname={chatname}
+          chat={chat}
         />
       ))}
 

@@ -18,7 +18,7 @@ const Message = ({
   setSelectedMessagesIds,
   selectedMessagesIds,
   setIsDeleteMode,
-  chatname,
+  chat,
 }) => {
   const [newMessage, setNewMessage] = useState(message);
   const [isHover, setIsHover] = useState(false);
@@ -26,18 +26,12 @@ const Message = ({
 
   useEffect(() => {
     setIsClicked(false);
-  }, [chatname]);
+  }, [chat]);
 
   useEffect(() => {
     if (isDeleteMode && selectedMessagesIds.length > 0) {
       setIsClicked(false);
-      setMessages(
-        messages.filter((mes, index) => !selectedMessagesIds.includes(index))
-      );
     }
-
-    setIsDeleteMode(false);
-    setSelectedMessagesIds([]);
   }, [isDeleteMode]);
 
   useEffect(() => {

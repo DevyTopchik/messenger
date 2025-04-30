@@ -1,20 +1,30 @@
 import React, { useState } from "react";
 import { IoSend } from "react-icons/io5";
 import "../assets/styles/SendMessage.css";
+import { sendMessage } from "../api/send_message";
 
-const SendMessage = ({ messages, setMessages }) => {
+const SendMessage = ({ setIsSent, chatId }) => {
   const [currentMessage, setCurrentMessage] = useState("");
-  // const messageEndRef = useRef(null);
 
-  // const formatDate = (date) => {
-  //   const hours = String(date.getHours()).padStart(2, "0");
-  //   const minutes = String(date.getMinutes()).padStart(2, "0");
-  //   const day = String(date.getDate()).padStart(2, "0");
-  //   const month = String(date.getMonth() + 1).padStart(2, "0");
-  //   const year = date.getFullYear();
+  const sendCurrentMessage = () => {
 
-  //   return `${hours}:${minutes} ${day}.${month}.${year}`;
-  // };
+    const obj = {
+      userId: localStorage.getItem('u_id'),
+      chatId: chatId,
+      message: currentMessage,
+      time: new Date(),
+      isFrom: true
+    }
+
+    console.log(obj)
+
+    sendMessage(obj)
+      .then(data => {
+        console.log(data)
+        setIsSent(true)
+      })
+      .catch(e => console.log(e))
+  }
 
   return (
     <div className="send-message">
@@ -28,11 +38,8 @@ const SendMessage = ({ messages, setMessages }) => {
         className="send"
         style={{ width: 30, height: 30 }}
         onClick={() => {
-          if (currentMessage != "")
-            setMessages([
-              ...messages,
-              { message: currentMessage, time: "03:00 am", isFrom: true },
-            ]);
+          if (currentMessage !== "")
+            sendCurrentMessage()
 
           setCurrentMessage("");
         }}

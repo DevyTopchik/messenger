@@ -3,7 +3,7 @@ import "../assets/styles/LeftBar.css";
 import Chat from "./Chat";
 import Overlay from "./Overlay";
 
-const Chats = ({ setChatId, chats, chatId, setIsLoginned }) => {
+const Chats = ({ setChatInd, chats, chatInd, setIsLoginned }) => {
   const [inputChatname, setInputChatname] = useState("");
 
   const [isOverlayOnn, setIsOverlayOnn] = useState(false);
@@ -38,14 +38,14 @@ const Chats = ({ setChatId, chats, chatId, setIsLoginned }) => {
       <div className="chats">
         {chats
           .filter((el) =>
-            el.chatname.toLowerCase().includes(inputChatname.toLowerCase())
+            el.otherUserLogin.toLowerCase().includes(inputChatname.toLowerCase())
           )
           .map((el, index) => (
             <Chat
-              chatId={chatId}
-              setChatId={setChatId}
+              chatInd={chatInd}
+              setChatInd={setChatInd}
               key={index}
-              id={el.id}
+              id={index}
               chat={el}
             />
           ))}

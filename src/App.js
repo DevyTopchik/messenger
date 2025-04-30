@@ -10,7 +10,7 @@ import ResetPasswordForm from "./components/ResetPasswordForm";
 
 function App() {
   const [isLoginned, setIsLoginned] = useState(false);
-  const [id, setId] = useState("");
+  const [u_id, setUid] = useState("");
   const [isRegPage, setIsRegPage] = useState(false);
   const [isResetPasswordPage, setIsResetPasswordPage] = useState(false);
 
@@ -20,7 +20,7 @@ function App() {
 
   useEffect(() => {
     setIsLoginned(localStorage.getItem("isLoginned") === "true");
-    console.log(isLoginned);
+    setUid(localStorage.getItem("u_id"));
   }, []);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ function App() {
               ) : (
                 <LoginForm
                   setIsLoginned={setIsLoginned}
-                  setId={setId}
+                  setUid={setUid}
                   setIsRegPage={setIsRegPage}
                   setIsResetPasswordPage={setIsResetPasswordPage}
                 />
@@ -73,7 +73,7 @@ function App() {
           </CSSTransition>
         </SwitchTransition>
       ) : (
-        <Main id={id} setIsLoginned={setIsLoginned} />
+        <Main u_id={u_id} setIsLoginned={setIsLoginned} />
       )}
     </div>
   );

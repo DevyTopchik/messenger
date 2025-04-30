@@ -4,31 +4,28 @@ import { logInFetch } from "../api/log_in";
 
 const LoginForm = ({
   setIsLoginned,
-  setId,
+  setUid,
   setIsRegPage,
   setIsResetPasswordPage,
 }) => {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(login, password);
+    const formData = new FormData(e.target);
+
+    console.log(Object.fromEntries(formData.entries()))
+
+    logInFetch(formData)
+      .then(id => {
+        console.log(id)
+        setIsLoginned(true);
+        localStorage.setItem("isLoginned", true);
+        localStorage.setItem("u_id", id);
+        setUid(id);
+      })
+      .catch(e => alert(e.message))
+
     e.target.reset();
-
-    //logInFetch(https://textchat-ast1.onrender.com/api/auth/login,{...})
-    if (login === "devytopchik" && password === '1') {
-      console.log(login);
-      console.log(password);
-
-      setIsLoginned(true);
-      localStorage.setItem("isLoginned", true);
-
-      setId(0);
-    }
-
-    setLogin("");
-    setPassword("");
   };
 
   return (
@@ -36,18 +33,16 @@ const LoginForm = ({
       <h2>Вход</h2>
       <form onSubmit={handleSubmit}>
         <input
-          value={login}
           type="text"
           placeholder="Логин"
-          onChange={(e) => setLogin(e.target.value)}
+          name="login"
           required
           autoComplete="onn"
         ></input>
         <input
-          value={password}
           type="password"
           placeholder="Пароль"
-          onChange={(e) => setPassword(e.target.value)}
+          name="password"
           required
           autoComplete="onn"
         ></input>

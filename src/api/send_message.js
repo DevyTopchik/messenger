@@ -1,12 +1,11 @@
-export const fetchChats = (userId, page) => {
-  return fetch("https://textchat-ast1.onrender.com/api/chat/getChats", {
+export const sendMessage = (obj) => {
+  return fetch("https://textchat-ast1.onrender.com/api/message/addNewMessage", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      userId: userId,
-      page: page,
+      ...obj,
     }),
   })
     .then((response) => {

@@ -8,8 +8,6 @@ const ResetPasswordForm = ({ setIsResetPasswordPage }) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
-    // const data = Object.fromEntries(formData.entries());
-    // console.log("Данные формы:", data);
     resetFetch(formData)
       .then(data => {
         if (data) {
@@ -19,11 +17,12 @@ const ResetPasswordForm = ({ setIsResetPasswordPage }) => {
           e.target.reset();
         }
       })
+      .catch(e => alert(e.message))
   };
 
   return (
     <div className="reset-form">
-      <h2>Регистрация</h2>
+      <h2>Смена пароля</h2>
       <FaArrowCircleLeft
         style={{
           position: "absolute",
