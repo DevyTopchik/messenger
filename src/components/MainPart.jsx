@@ -5,7 +5,7 @@ import SendMessage from "./SendMessage";
 import TopBar from "./TopBar";
 import { fetchMessages } from "../api/messages";
 
-const MainPart = ({ messages, setMessages, chat, isSent, setIsSent, setNumber, number, setIsLoaded }) => {
+const MainPart = ({ messages, setMessages, chat, isSent, setIsSent, setNumber, number, setIsLoaded, u_id }) => {
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedIdsLen, setSelectedIdsLen] = useState(0);
@@ -20,7 +20,7 @@ const MainPart = ({ messages, setMessages, chat, isSent, setIsSent, setNumber, n
   useEffect(() => {
     if (!isDeleteMode) {
       if (chat.chatId) {
-        fetchMessages(localStorage.getItem('u_id'), chat.chatId, number)
+        fetchMessages(u_id, chat.chatId, number)
           .then(data => {
             console.log(data)
             const messages = data;

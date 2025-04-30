@@ -61,6 +61,7 @@ const Main = ({ u_id, setIsLoginned }) => {
         setIsLoginned={setIsLoginned}
       />
       {isLoaded && <MainPart
+        u_id={u_id}
         messages={messages}
         setMessages={setMessages}
         chat={chats[chatInd]}
