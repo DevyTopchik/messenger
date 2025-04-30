@@ -42,13 +42,16 @@ const Messages = ({
         .filter((mes, index) => selectedMessagesIds.includes(index))
         .map(
           mes => {
-            deleteMessage(mes.id).then(data => {
-              console.log(data)
-            })
+            deleteMessage(mes.id)
+              .then(data => {
+                console.log(data)
+              })
+              .then(() => {
+                setIsDeleteMode(false);
+              })
           });
     }
 
-    setIsDeleteMode(false);
     setSelectedMessagesIds([]);
   }, [isDeleteMode]);
 
@@ -70,7 +73,6 @@ const Messages = ({
           setIsEditMode={setIsEditMode}
           setSelectedMessagesIds={setSelectedMessagesIds}
           selectedMessagesIds={selectedMessagesIds}
-          setIsDeleteMode={setIsDeleteMode}
           chat={chat}
         />
       ))}

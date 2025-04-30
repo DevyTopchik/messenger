@@ -18,11 +18,11 @@ const MainPart = ({ messages, setMessages, chat, isSent, setIsSent, setNumber, n
   }, [isSent])
 
   useEffect(() => {
-    if (isDeleteMode) {
+    if (!isDeleteMode) {
       if (chat.chatId) {
         fetchMessages(localStorage.getItem('u_id'), chat.chatId, number)
           .then(data => {
-            // console.log(data)
+            console.log(data)
             const messages = data;
             setMessages(messages.reverse());
             setIsLoaded(true)

@@ -17,7 +17,6 @@ const Message = ({
   setIsEditMode,
   setSelectedMessagesIds,
   selectedMessagesIds,
-  setIsDeleteMode,
   chat,
 }) => {
   const [newMessage, setNewMessage] = useState(message);

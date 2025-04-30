@@ -1,7 +1,7 @@
 export const deleteMessage = (messageId) => {
   console.log(messageId);
   return fetch(
-    `https://textchat-ast1.onrender.com/api/message/deleteMessage?id=${messageId}`
+    `https://textchat-ast1.onrender.com/api/message/deleteMessage/${messageId}`
   )
     .then((response) => {
       if (!response.ok) {
