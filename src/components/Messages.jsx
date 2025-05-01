@@ -17,6 +17,7 @@ const Messages = ({
   setMessPage,
   fetchMessagesCompApi,
   loading,
+  isSent,
 }) => {
   const [editIndex, setEditIndex] = useState(-1);
   const messagesEndRef = useRef(null);
@@ -59,13 +60,14 @@ const Messages = ({
     if (isInitialLoad && messages.length > 0) {
       messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
       setIsInitialLoad(false);
-    } else if (!isInitialLoad) {
+    } else if (!isInitialLoad && isSent) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages]);
+  }, [messages, isSent]);
 
   useEffect(() => {
     setSelectedMessagesIds([]);
+    setIsInitialLoad(true);
   }, [chat]);
 
   useEffect(() => {
@@ -76,10 +78,8 @@ const Messages = ({
   }, [isEditMode]);
 
   useEffect(() => {
-    if (!isDeleteMode && !isEditMode) {
-      fetchMessagesCompApi();
-    }
-  }, [isDeleteMode, isEditMode, messPage]);
+    fetchMessagesCompApi();
+  }, [messPage]);
 
   useEffect(() => {
     if (isDeleteMode && selectedMessagesIds.length > 0) {

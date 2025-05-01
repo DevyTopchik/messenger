@@ -7,7 +7,10 @@ const Overlay = ({ isOverlayOnn, setIsOverlayOnn, setIsLoginned }) => {
   const [isHover, setIsHover] = useState(false);
 
   return (
-    <div className={`overlay ${isOverlayOnn ? "onn" : "off"}`}>
+    <div
+      className={`overlay ${isOverlayOnn ? "onn" : "off"}`}
+      onClick={() => setIsOverlayOnn(false)}
+    >
       <RxCross1
         style={{
           width: 40,

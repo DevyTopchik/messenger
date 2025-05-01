@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "../assets/styles/LoginForm.css";
 import { logInFetch } from "../api/log_in";
 
@@ -8,22 +8,21 @@ const LoginForm = ({
   setIsRegPage,
   setIsResetPasswordPage,
 }) => {
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
 
-    console.log(Object.fromEntries(formData.entries()))
+    console.log(Object.fromEntries(formData.entries()));
 
     logInFetch(formData)
-      .then(id => {
-        console.log(id)
+      .then((id) => {
+        console.log(id);
         setIsLoginned(true);
         localStorage.setItem("isLoginned", true);
         localStorage.setItem("u_id", id);
         setUid(id);
       })
-      .catch(e => alert(e.message))
+      .catch((e) => alert(e.message));
 
     e.target.reset();
   };

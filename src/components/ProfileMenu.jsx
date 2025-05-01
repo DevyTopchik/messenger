@@ -17,7 +17,7 @@ const ProfileMenu = ({ setIsLoginned }) => {
   };
 
   return (
-    <div className="profile-menu">
+    <div className="profile-menu" onClick={(e) => e.stopPropagation()}>
       <div className="top">
         <img
           src={

@@ -67,6 +67,7 @@ const MainPart = ({ chat, isSent, setIsSent, setMessPage, messPage, u_id }) => {
       />
 
       <Messages
+        isSent={isSent}
         messages={messages}
         setMessages={setMessages}
         isDeleteMode={isDeleteMode}
