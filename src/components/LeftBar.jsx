@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../assets/styles/LeftBar.css";
 import Chat from "./Chat";
 import Overlay from "./Overlay";
 
-const LeftBar = ({ setChatInd, chats, chatInd, setIsLoginned, setPage }) => {
+const LeftBar = ({
+  setChatInd,
+  chats,
+  chatInd,
+  setIsLoginned,
+  setPage,
+  fetchChatsCompApi,
+  page,
+}) => {
   const [inputChatname, setInputChatname] = useState("");
 
   const [isOverlayOnn, setIsOverlayOnn] = useState(false);
+
+  useEffect(() => {
+    fetchChatsCompApi(inputChatname);
+  }, [inputChatname]);
 
   return (
     <div className="left-block">

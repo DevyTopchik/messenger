@@ -1,5 +1,5 @@
-export const fetchChats = (userId, page) => {
-  return fetch("https://textchat-ast1.onrender.com/api/chat/getChats", {
+export const fetchChats = (userId, page, chatName) => {
+  return fetch("https://textchat-ast1.onrender.com/api/chat/search", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -7,6 +7,7 @@ export const fetchChats = (userId, page) => {
     body: JSON.stringify({
       userId: userId,
       page: page,
+      chatName: chatName,
     }),
   })
     .then((response) => {
@@ -20,3 +21,4 @@ export const fetchChats = (userId, page) => {
       return Promise.reject(e);
     });
 };
+// https://textchat-ast1.onrender.com/api/chat/getChats

@@ -93,6 +93,7 @@ const Message = ({
             <MdModeEdit
               onClick={() => {
                 editMessage(message.id, newMessage).then((data) => {
+                  message.message = newMessage;
                   setIsEditMode(false);
                 });
               }}

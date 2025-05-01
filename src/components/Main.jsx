@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "../assets/styles/Main.css";
 import LeftBar from "./LeftBar";
-import MainPart from "./MainPart";
+import RightPart from "./RightPart";
 import { fetchChats } from "../api/chats";
-import { fetchMessages } from "../api/messages";
 
 const Main = ({ u_id, setIsLoginned }) => {
   const [chats, setChats] = useState([]);
-  const [messages, setMessages] = useState([]);
   const [chatInd, setChatInd] = useState();
 
   const [page, setPage] = useState(1);
-  const [number, setNumber] = useState(1);
+  const [messPage, setMessPage] = useState(1);
 
-  const [isLoaded, setIsLoaded] = useState(false);
   const [isSent, setIsSent] = useState(false);
 
-  useEffect(() => {
-    fetchChats(u_id, page)
+  const fetchChatsCompApi = (chatName = "") => {
+    fetchChats(u_id, page, chatName)
       .then((data) => {
         const { chats: chats_temp } = data;
         // console.log(chats_temp)
@@ -25,44 +22,32 @@ const Main = ({ u_id, setIsLoginned }) => {
         setChats(chats_temp);
       })
       .catch((e) => console.log(e));
-  }, [u_id]);
+  };
 
   useEffect(() => {
-    if (chats[chatInd]?.chatId) {
-      fetchMessages(u_id, chats[chatInd].chatId, number)
-        .then((data) => {
-          // console.log(data)
-          const messages = data;
-          setMessages(messages.reverse());
-          setIsLoaded(true);
-        })
-        .catch((e) => console.log(e));
-    }
-  }, [chatInd, isSent]);
+    fetchChatsCompApi();
+  }, [u_id]);
 
   return (
     <div className="main">
       <LeftBar
         setChatInd={setChatInd}
         chats={chats}
-        setChats={setChats}
         chatInd={chatInd}
         setIsLoginned={setIsLoginned}
         setPage={setPage}
+        page={page}
+        fetchChatsCompApi={fetchChatsCompApi}
       />
-      {isLoaded && (
-        <MainPart
-          u_id={u_id}
-          messages={messages}
-          setMessages={setMessages}
-          chat={chats[chatInd]}
-          isSent={isSent}
-          setIsSent={setIsSent}
-          number={number}
-          setNumber={setNumber}
-          setIsLoaded={setIsLoaded}
-        />
-      )}
+
+      <RightPart
+        u_id={u_id}
+        chat={chats[chatInd]}
+        isSent={isSent}
+        setIsSent={setIsSent}
+        messPage={messPage}
+        setMessPage={setMessPage}
+      />
     </div>
   );
 };
