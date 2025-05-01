@@ -7,14 +7,13 @@ const Messages = ({
   messages,
   isDeleteMode,
   isEditMode,
-  setMessages,
   setIsEditMode,
-  setSelectedIdsLen,
+  selectedMessagesIds,
+  setSelectedMessagesIds,
   setIsDeleteMode,
   chat,
 }) => {
   const [editIndex, setEditIndex] = useState(-1);
-  const [selectedMessagesIds, setSelectedMessagesIds] = useState([]);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -22,36 +21,32 @@ const Messages = ({
   }, [chat]);
 
   useEffect(() => {
-    setSelectedIdsLen(selectedMessagesIds.length);
-  }, [selectedMessagesIds]);
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   useEffect(() => {
     if (!isEditMode) {
       setEditIndex(-1);
+      setSelectedMessagesIds([]);
     }
   }, [isEditMode]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chat]);
-
-  useEffect(() => {
     if (isDeleteMode && selectedMessagesIds.length > 0) {
-
       messages
-        .filter((mes, index) => selectedMessagesIds.includes(index))
-        .map(
-          mes => {
-            deleteMessage(mes.id)
-              .then(data => {
-                console.log(data)
-              })
-              .then(() => {
-                setIsDeleteMode(false);
-              })
-          });
+        .filter((mes, index) =>
+          selectedMessagesIds.some((el) => el.id === index)
+        )
+        .forEach((mes) => {
+          deleteMessage(mes.id)
+            .then((data) => {
+              console.log(data);
+            })
+            .then(() => {
+              setIsDeleteMode(false);
+            });
+        });
     }
-
     setSelectedMessagesIds([]);
   }, [isDeleteMode]);
 
@@ -63,11 +58,7 @@ const Messages = ({
           isEditMode={isEditMode}
           key={index}
           id={index}
-          isFrom={el.isFrom}
-          message={el.message}
-          time={el.time}
-          messages={messages}
-          setMessages={setMessages}
+          message={el}
           editIndex={editIndex}
           setEditIndex={setEditIndex}
           setIsEditMode={setIsEditMode}

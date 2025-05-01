@@ -2,13 +2,10 @@ import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdModeEdit } from "react-icons/md";
 import "../assets/styles/Message.css";
+import { editMessage } from "../api/edit_message";
 
 const Message = ({
-  isFrom,
   message,
-  messages,
-  setMessages,
-  time,
   isDeleteMode,
   isEditMode,
   id,
@@ -19,7 +16,7 @@ const Message = ({
   selectedMessagesIds,
   chat,
 }) => {
-  const [newMessage, setNewMessage] = useState(message);
+  const [newMessage, setNewMessage] = useState(message.message);
   const [isHover, setIsHover] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
@@ -28,16 +25,28 @@ const Message = ({
   }, [chat]);
 
   useEffect(() => {
+    if (!isClicked) {
+      setIsEditMode(false);
+    }
+  }, [isClicked]);
+
+  useEffect(() => {
     if (isDeleteMode && selectedMessagesIds.length > 0) {
       setIsClicked(false);
     }
   }, [isDeleteMode]);
 
   useEffect(() => {
+    if (!isEditMode) {
+      setIsClicked(false);
+    }
+  }, [isEditMode]);
+
+  useEffect(() => {
     if (!isEditMode || !selectedMessagesIds || selectedMessagesIds.length !== 1)
       return;
 
-    const [selectedId] = selectedMessagesIds;
+    const selectedId = selectedMessagesIds[0].id;
 
     if (id !== selectedId) {
       setEditIndex(selectedId);
@@ -46,11 +55,11 @@ const Message = ({
 
   return (
     <div
-      className={`wrapper ${!isFrom ? "to-wr" : "from-wr"}`}
+      className={`wrapper ${!message.isFrom ? "to-wr" : "from-wr"}`}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
-      {isFrom && (isHover || isClicked) ? (
+      {message.isFrom && (isHover || isClicked) ? (
         <FaCheckCircle
           style={{
             width: 30,
@@ -60,9 +69,9 @@ const Message = ({
           onClick={() => {
             setSelectedMessagesIds((prevIds) => {
               if (isClicked) {
-                return prevIds.filter((id_a) => id_a !== id);
+                return prevIds.filter((id_a) => id_a.id !== id);
               } else {
-                return [...prevIds, id];
+                return [...prevIds, { id: id, isFrom: message.isFrom }];
               }
             });
             setIsClicked(!isClicked);
@@ -72,8 +81,7 @@ const Message = ({
         ""
       )}
 
-      <div className={`message-block ${!isFrom ? "to" : "from"}`}>
-        {/* {console.log(editIndex)} */}
+      <div className={`message-block ${!message.isFrom ? "to" : "from"}`}>
         {isEditMode && editIndex === id ? (
           <div className="input-block">
             <input
@@ -84,22 +92,19 @@ const Message = ({
             />
             <MdModeEdit
               onClick={() => {
-                setIsEditMode(false);
-                setMessages(
-                  messages.map((message, index) =>
-                    index === id ? { ...message, message: newMessage } : message
-                  )
-                );
+                editMessage(message.id, newMessage).then((data) => {
+                  setIsEditMode(false);
+                });
               }}
             />
           </div>
         ) : (
-          <h3>{message}</h3>
+          <h3>{message.message}</h3>
         )}
-        <p>{time}</p>
+        <p>{message.time}</p>
       </div>
 
-      {!isFrom && (isHover || isClicked) ? (
+      {!message.isFrom && (isHover || isClicked) ? (
         <FaCheckCircle
           style={{
             width: 30,
@@ -109,9 +114,9 @@ const Message = ({
           onClick={() => {
             setSelectedMessagesIds((prevIds) => {
               if (isClicked) {
-                return prevIds.filter((id_a) => id_a !== id);
+                return prevIds.filter((id_a) => id_a.id !== id);
               } else {
-                return [...prevIds, id];
+                return [...prevIds, { id: id, isFrom: message.isFrom }];
               }
             });
             setIsClicked(!isClicked);

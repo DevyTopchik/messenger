@@ -5,56 +5,66 @@ import SendMessage from "./SendMessage";
 import TopBar from "./TopBar";
 import { fetchMessages } from "../api/messages";
 
-const MainPart = ({ messages, setMessages, chat, isSent, setIsSent, setNumber, number, setIsLoaded, u_id }) => {
+const MainPart = ({
+  messages,
+  setMessages,
+  chat,
+  isSent,
+  setIsSent,
+  setNumber,
+  number,
+  setIsLoaded,
+  u_id,
+}) => {
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [selectedIdsLen, setSelectedIdsLen] = useState(0);
+  const [selectedMessagesIds, setSelectedMessagesIds] = useState([]);
 
   useEffect(() => {
     if (isSent === true) {
-      setNumber(1)
-      setIsSent(false)
+      setNumber(1);
+      setIsSent(false);
     }
-  }, [isSent])
+  }, [isSent]);
 
   useEffect(() => {
-    if (!isDeleteMode) {
+    if (!isDeleteMode && !isEditMode) {
       if (chat.chatId) {
         fetchMessages(u_id, chat.chatId, number)
-          .then(data => {
-            console.log(data)
+          .then((data) => {
+            // console.log(data);
             const messages = data;
             setMessages(messages.reverse());
-            setIsLoaded(true)
+            setIsLoaded(true);
           })
-          .catch(e => console.log(e))
+          .catch((e) => console.log(e));
       }
     }
-  }, [isDeleteMode])
+  }, [isDeleteMode, isEditMode]);
 
   return (
     <div className="main-part">
       <TopBar
-        chatname={chat.otherUserLogin}
+        chatname={chat?.otherUserLogin || ""}
         setIsDeleteMode={setIsDeleteMode}
         setIsEditMode={setIsEditMode}
         isDeleteMode={isDeleteMode}
         isEditMode={isEditMode}
-        selectedIdsLen={selectedIdsLen}
+        selectedMessagesIds={selectedMessagesIds}
       />
 
       <Messages
         messages={messages}
-        setMessages={setMessages}
         isDeleteMode={isDeleteMode}
         isEditMode={isEditMode}
         setIsEditMode={setIsEditMode}
-        setSelectedIdsLen={setSelectedIdsLen}
         setIsDeleteMode={setIsDeleteMode}
+        selectedMessagesIds={selectedMessagesIds}
+        setSelectedMessagesIds={setSelectedMessagesIds}
         chat={chat}
       />
 
-      <SendMessage chatId={chat.chatId} setIsSent={setIsSent} />
+      <SendMessage chatId={chat?.chatId} setIsSent={setIsSent} />
     </div>
   );
 };

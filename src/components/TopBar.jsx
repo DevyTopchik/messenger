@@ -9,7 +9,7 @@ const TopBar = ({
   setIsEditMode,
   isEditMode,
   isDeleteMode,
-  selectedIdsLen,
+  selectedMessagesIds,
 }) => {
   const [isHoveredDelete, setIsHoveredDelete] = useState(false);
   const [isHoveredRedact, setIsHoveredRedact] = useState(false);
@@ -17,7 +17,7 @@ const TopBar = ({
   const handleDeleteMode = () => {
     setIsDeleteMode(!isDeleteMode);
 
-    if (selectedIdsLen === 0) setIsDeleteMode(false);
+    if (selectedMessagesIds.length === 0) setIsDeleteMode(false);
 
     if (isEditMode) {
       setIsEditMode(!isEditMode);
@@ -27,11 +27,12 @@ const TopBar = ({
   const handleEditMode = () => {
     setIsEditMode(!isEditMode);
 
-    if (selectedIdsLen === 0) setIsEditMode(false);
+    if (selectedMessagesIds.length === 0 || !selectedMessagesIds[0].isFrom)
+      setIsEditMode(false);
 
-    console.log(selectedIdsLen);
+    // console.log(selectedIdsLen);
 
-    console.log(isEditMode);
+    // console.log(isEditMode);
 
     if (isDeleteMode) {
       setIsDeleteMode(!isDeleteMode);
@@ -58,7 +59,7 @@ const TopBar = ({
     <div className="top-bar">
       <h1>{chatname}</h1>
       <div className="options-panel">
-        {selectedIdsLen === 1 ? (
+        {selectedMessagesIds.length === 1 && selectedMessagesIds[0]?.isFrom ? (
           <FaEdit
             style={{
               width: 30,
@@ -73,7 +74,7 @@ const TopBar = ({
         ) : (
           ""
         )}
-        {selectedIdsLen > 0 ? (
+        {selectedMessagesIds.length > 0 ? (
           <GoTrash
             style={{
               width: 35,
