@@ -37,6 +37,7 @@ const MainPart = ({ chat, isSent, setIsSent, setMessPage, messPage, u_id }) => {
         })
         .catch((e) => console.log(e))
         .finally(() => {
+          setSelectedMessagesIds([]);
           setLoading(false);
         });
     }
@@ -67,6 +68,7 @@ const MainPart = ({ chat, isSent, setIsSent, setMessPage, messPage, u_id }) => {
 
       <Messages
         messages={messages}
+        setMessages={setMessages}
         isDeleteMode={isDeleteMode}
         isEditMode={isEditMode}
         setIsEditMode={setIsEditMode}

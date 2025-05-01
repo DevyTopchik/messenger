@@ -5,6 +5,7 @@ import Message from "./Message";
 
 const Messages = ({
   messages,
+  setMessages,
   isDeleteMode,
   isEditMode,
   setIsEditMode,
@@ -21,6 +22,24 @@ const Messages = ({
   const messagesEndRef = useRef(null);
   const messContainerRef = useRef(null);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  const deleteMessFunction = () => {
+    messages
+      .filter((mes, index) => selectedMessagesIds.some((el) => el.id === index))
+      .forEach((mes) => {
+        deleteMessage(mes.id).then(() => {
+          setIsDeleteMode(false);
+        });
+      });
+
+    setMessages(
+      messages.filter((mes, index) =>
+        selectedMessagesIds.some((el) => el.id !== index)
+      )
+    );
+
+    setSelectedMessagesIds([]);
+  };
 
   useEffect(() => {
     const container = messContainerRef.current;
@@ -64,17 +83,7 @@ const Messages = ({
 
   useEffect(() => {
     if (isDeleteMode && selectedMessagesIds.length > 0) {
-      messages
-        .filter((mes, index) =>
-          selectedMessagesIds.some((el) => el.id === index)
-        )
-        .forEach((mes) => {
-          deleteMessage(mes.id).then(() => {
-            setIsDeleteMode(false);
-          });
-        });
-
-      setSelectedMessagesIds([]);
+      deleteMessFunction();
     }
   }, [isDeleteMode]);
 

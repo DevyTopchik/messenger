@@ -5,16 +5,16 @@ import "../assets/styles/Message.css";
 import { editMessage } from "../api/edit_message";
 
 const Message = ({
+  chat,
   message,
+  id,
   isDeleteMode,
   isEditMode,
-  id,
-  setEditIndex,
   editIndex,
+  setEditIndex,
   setIsEditMode,
-  setSelectedMessagesIds,
   selectedMessagesIds,
-  chat,
+  setSelectedMessagesIds,
 }) => {
   const [newMessage, setNewMessage] = useState(message.message);
   const [isHover, setIsHover] = useState(false);
@@ -23,6 +23,10 @@ const Message = ({
   useEffect(() => {
     setIsClicked(false);
   }, [chat]);
+
+  useEffect(() => {
+    setNewMessage(message.message);
+  }, [message]);
 
   useEffect(() => {
     if (!isClicked) {
