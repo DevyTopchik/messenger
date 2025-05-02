@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../assets/styles/LeftBar.css";
 import Chat from "./Chat";
 import Overlay from "./Overlay";
@@ -8,17 +8,52 @@ const LeftBar = ({
   chats,
   chatInd,
   setIsLoginned,
-  setPage,
-  fetchChatsCompApi,
   page,
+  setPage,
+  loadingChats,
+  fetchChatsCompApi,
 }) => {
   const [inputChatname, setInputChatname] = useState("");
-
   const [isOverlayOnn, setIsOverlayOnn] = useState(false);
+  const chatsContainerRef = useRef(null);
 
   useEffect(() => {
     fetchChatsCompApi(inputChatname);
+    setPage(1);
   }, [inputChatname]);
+
+  useEffect(() => {
+    const container = chatsContainerRef.current;
+    if (!container) return;
+
+    let isLocked = false;
+
+    const handleScroll = () => {
+      const isBottom =
+        container.scrollHeight - container.scrollTop <=
+        container.clientHeight + 1;
+
+      if (isBottom && !loadingChats && !isLocked) {
+        isLocked = true;
+
+        const prevScrollHeight = container.scrollHeight;
+        console.log(page);
+        setPage((prev) => prev + 1);
+        container.scrollTop = prevScrollHeight;
+
+        setTimeout(() => {
+          isLocked = false;
+        }, 100);
+      }
+    };
+
+    container.addEventListener("scroll", handleScroll);
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, [loadingChats]);
+
+  useEffect(() => {
+    fetchChatsCompApi();
+  }, [page]);
 
   return (
     <div className="left-block">
@@ -49,7 +84,7 @@ const LeftBar = ({
         ></input>
       </div>
 
-      <div className="chats">
+      <div className="chats" ref={chatsContainerRef}>
         {chats
           .filter((el) =>
             el.otherUserLogin

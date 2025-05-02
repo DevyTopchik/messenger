@@ -10,7 +10,6 @@ const ProfileMenu = ({ setIsLoginned }) => {
     const newName = prompt("Введите новое имя:", userName);
     if (newName !== null && newName.trim() !== "" && newName.length <= 21) {
       setUserName(newName);
-      //localStorage.setItem("userName", newName);
     } else {
       alert("Вводенное имя некорректно");
     }
@@ -57,6 +56,7 @@ const ProfileMenu = ({ setIsLoginned }) => {
           onClick={() => {
             setIsLoginned(false);
             localStorage.setItem("isLoginned", false);
+            localStorage.removeItem("u_id");
           }}
         >
           Выйти

@@ -16,7 +16,7 @@ const Messages = ({
   messPage,
   setMessPage,
   fetchMessagesCompApi,
-  loading,
+  loadingMess,
   isSent,
 }) => {
   const [editIndex, setEditIndex] = useState(-1);
@@ -47,14 +47,16 @@ const Messages = ({
     if (!container) return;
 
     const handleScroll = () => {
-      if (container.scrollTop === 0 && !loading && !isInitialLoad) {
+      if (container.scrollTop === 0 && !loadingMess && !isInitialLoad) {
         setMessPage((prev) => prev + 1);
+        container.scrollTop =
+          container.scrollHeight - container.clientHeight * messPage;
       }
     };
 
     container.addEventListener("scroll", handleScroll);
     return () => container.removeEventListener("scroll", handleScroll);
-  }, [loading, isInitialLoad]);
+  }, [loadingMess, isInitialLoad]);
 
   useEffect(() => {
     if (isInitialLoad && messages.length > 0) {

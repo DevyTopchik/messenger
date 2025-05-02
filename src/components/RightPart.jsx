@@ -10,24 +10,22 @@ const MainPart = ({ chat, isSent, setIsSent, setMessPage, messPage, u_id }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedMessagesIds, setSelectedMessagesIds] = useState([]);
   const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loadingMess, setLoadingMess] = useState(true);
 
   const fetchMessagesCompApi = () => {
     if (chat?.chatId) {
-      setLoading(true);
+      setLoadingMess(true);
 
       fetchMessages(u_id, chat.chatId, messPage)
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           if (data.length) {
             if (messPage === 1) {
               const messages = data.reverse();
               setMessages(messages);
             } else {
               const messages = data.reverse();
-              setMessages((prevMess) => {
-                return [...messages, ...prevMess];
-              });
+              setMessages((prevMess) => [...messages, ...prevMess]);
             }
           } else {
             if (messPage === 1) {
@@ -38,7 +36,7 @@ const MainPart = ({ chat, isSent, setIsSent, setMessPage, messPage, u_id }) => {
         .catch((e) => console.log(e))
         .finally(() => {
           setSelectedMessagesIds([]);
-          setLoading(false);
+          setLoadingMess(false);
         });
     }
   };
@@ -80,7 +78,7 @@ const MainPart = ({ chat, isSent, setIsSent, setMessPage, messPage, u_id }) => {
         setMessPage={setMessPage}
         messPage={messPage}
         fetchMessagesCompApi={fetchMessagesCompApi}
-        loading={loading}
+        loadingMess={loadingMess}
       />
 
       <SendMessage chatId={chat?.chatId} setIsSent={setIsSent} />

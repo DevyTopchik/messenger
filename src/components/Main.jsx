@@ -12,16 +12,29 @@ const Main = ({ u_id, setIsLoginned }) => {
   const [messPage, setMessPage] = useState(1);
 
   const [isSent, setIsSent] = useState(false);
+  const [loadingChats, setLoadingChats] = useState(true);
 
   const fetchChatsCompApi = (chatName = "") => {
+    setLoadingChats(true);
+
     fetchChats(u_id, page, chatName)
       .then((data) => {
-        const { chats: chats_temp } = data;
-        // console.log(chats_temp)
-        setChatInd(0);
-        setChats(chats_temp);
+        if (data.chats.length) {
+          if (page === 1) {
+            const { chats: chats_temp } = data;
+            console.log(chats_temp);
+            setChats(chats_temp);
+          } else {
+            const { chats: chats_temp } = data;
+            console.log(chats_temp);
+            setChats((prev_chats) => [...prev_chats, ...chats_temp]);
+          }
+
+          setChatInd(0);
+        }
       })
-      .catch((e) => console.log(e));
+      .catch((e) => console.log(e))
+      .finally(() => setLoadingChats(false));
   };
 
   useEffect(() => {
@@ -38,6 +51,7 @@ const Main = ({ u_id, setIsLoginned }) => {
         setPage={setPage}
         page={page}
         fetchChatsCompApi={fetchChatsCompApi}
+        loadingChats={loadingChats}
       />
 
       <RightPart
