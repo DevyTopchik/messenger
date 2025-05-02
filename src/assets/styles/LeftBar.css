@@ -46,3 +46,26 @@
   background: var(--s-color);
   border-radius: 4px;
 }
+
+@media (max-width: 1000px) {
+  .left-block {
+    width: 50%;
+  }
+}
+
+@media (max-width: 710px) {
+  .left-block {
+    width: 60%;
+  }
+}
+
+@media (max-width: 500px) {
+  .left-block {
+    display: block;
+    width: 100%;
+  }
+
+  .left-block.not-active {
+    display: none;
+  }
+}

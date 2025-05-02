@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { GoTrash } from "react-icons/go";
+import { MdKeyboardArrowLeft } from "react-icons/md";
 import "../assets/styles/TopBar.css";
 
 const TopBar = ({
@@ -57,6 +58,17 @@ const TopBar = ({
 
   return (
     <div className="top-bar">
+      <MdKeyboardArrowLeft
+        className="arrow-back"
+        style={{ width: 35, height: "auto" }}
+        onClick={() => {
+          const left_bar = document.querySelector(".left-block");
+          const right_part = document.querySelector(".main-part");
+
+          left_bar.classList.toggle("not-active");
+          right_part.classList.toggle("active");
+        }}
+      />
       <h1>{chatname}</h1>
       <div className="options-panel">
         {selectedMessagesIds.length === 1 && selectedMessagesIds[0]?.isFrom ? (

@@ -30,7 +30,7 @@ const Main = ({ u_id, setIsLoginned }) => {
             setChats((prev_chats) => [...prev_chats, ...chats_temp]);
           }
 
-          setChatInd(0);
+          // setChatInd(0);
         }
       })
       .catch((e) => console.log(e))
@@ -40,6 +40,14 @@ const Main = ({ u_id, setIsLoginned }) => {
   useEffect(() => {
     fetchChatsCompApi();
   }, [u_id]);
+
+  useEffect(() => {
+    const left_bar = document.querySelector(".left-block");
+    const right_part = document.querySelector(".main-part");
+
+    left_bar.classList.toggle("not-active");
+    right_part.classList.toggle("active");
+  }, [chatInd]);
 
   return (
     <div className="main">

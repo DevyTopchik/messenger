@@ -6,3 +6,27 @@
   margin-left: 5px;
   position: relative;
 }
+
+
+@media (max-width: 1000px) {
+  .main div.main-part{
+    width: 50%;
+  }
+}
+
+@media (max-width: 710px) {
+  .main div.main-part{
+    width: 40%;
+  }
+}
+
+@media (max-width: 500px) {
+  .main div.main-part{
+    display: none;
+  }
+
+  .main div.main-part.active{
+    display: flex;
+    width: 100%;
+  }
+}

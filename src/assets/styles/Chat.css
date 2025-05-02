@@ -37,3 +37,17 @@ p {
 .clicked p {
   color: var(--white);
 }
+
+
+@media (max-width: 710px) {
+  .chat {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 500px) {
+  .chat {
+    gap: 20px;
+  }
+}
+
