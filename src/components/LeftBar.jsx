@@ -4,6 +4,7 @@ import Chat from "./Chat";
 import Overlay from "./Overlay";
 
 const LeftBar = ({
+  u_id,
   setChatInd,
   chats,
   chatInd,
@@ -58,6 +59,7 @@ const LeftBar = ({
   return (
     <div className="left-block">
       <Overlay
+        u_id={u_id}
         isOverlayOnn={isOverlayOnn}
         setIsOverlayOnn={setIsOverlayOnn}
         setIsLoginned={setIsLoginned}

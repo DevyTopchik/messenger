@@ -4,7 +4,15 @@ const Chat = ({ chat, id, setChatInd, chatInd }) => {
   return (
     <div
       className={`chat ${chatInd === id ? "clicked" : ""}`}
-      onClick={() => setChatInd(id)}
+      onClick={() => {
+        setChatInd(id);
+
+        const left_bar = document.querySelector(".left-block");
+        const right_part = document.querySelector(".main-part");
+
+        left_bar.classList.toggle("not-active");
+        right_part.classList.toggle("active");
+      }}
     >
       <img
         src={

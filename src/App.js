@@ -7,6 +7,7 @@ import LoginForm from "./components/LoginForm";
 import Main from "./components/Main";
 import RegistrationForm from "./components/RegistrationForm";
 import ResetPasswordForm from "./components/ResetPasswordForm";
+import { hashStringSHA256 } from "./funcs/hash";
 
 function App() {
   const [isLoginned, setIsLoginned] = useState(false);
@@ -19,8 +20,14 @@ function App() {
   const resetRef = useRef(null);
 
   useEffect(() => {
-    setIsLoginned(localStorage.getItem("isLoginned") === "true");
-    setUid(localStorage.getItem("u_id"));
+    hashStringSHA256(localStorage.getItem("u_id")).then((data) => {
+      if (data === localStorage.getItem("hash")) {
+        setIsLoginned(localStorage.getItem("isLoginned") === "true");
+        setUid(localStorage.getItem("u_id"));
+      } else {
+        localStorage.setItem("isLoginned", false);
+      }
+    });
   }, []);
 
   useEffect(() => {

@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import "../assets/styles/ProfileMenu.css";
 import ThemeSwitcher from "./ThemeSwitcher";
+import { changeUserName } from "../api/change_user_name";
 
-const ProfileMenu = ({ setIsLoginned }) => {
+const ProfileMenu = ({ u_id, setIsLoginned }) => {
   const [isHover, setIsHover] = useState();
   const [userName, setUserName] = useState("Иван Иванов");
 
   const handleNameChange = () => {
     const newName = prompt("Введите новое имя:", userName);
     if (newName !== null && newName.trim() !== "" && newName.length <= 21) {
-      setUserName(newName);
+      changeUserName(u_id, newName).then((data) => {
+        console.log(data);
+        setUserName(newName);
+      });
     } else {
       alert("Вводенное имя некорректно");
     }

@@ -41,17 +41,10 @@ const Main = ({ u_id, setIsLoginned }) => {
     fetchChatsCompApi();
   }, [u_id]);
 
-  useEffect(() => {
-    const left_bar = document.querySelector(".left-block");
-    const right_part = document.querySelector(".main-part");
-
-    left_bar.classList.toggle("not-active");
-    right_part.classList.toggle("active");
-  }, [chatInd]);
-
   return (
     <div className="main">
       <LeftBar
+        u_id={u_id}
         setChatInd={setChatInd}
         chats={chats}
         chatInd={chatInd}
