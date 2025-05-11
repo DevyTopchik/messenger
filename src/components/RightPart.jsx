@@ -18,13 +18,26 @@ const MainPart = ({ chat, isSent, setIsSent, setMessPage, messPage, u_id }) => {
 
       fetchMessages(u_id, chat.chatId, messPage)
         .then((data) => {
-          // console.log(data);
+          console.log(data);
           if (data.length) {
+            const messages = data
+              .map((obj) => {
+                const date = new Date(obj.time);
+                const day = String(date.getDate()).padStart(2, "0");
+                const month = String(date.getMonth() + 1).padStart(2, "0");
+                const hours = String(date.getHours()).padStart(2, "0");
+                const minutes = String(date.getMinutes()).padStart(2, "0");
+
+                return {
+                  ...obj,
+                  time: `${day}.${month} ${hours}:${minutes}`,
+                };
+              })
+              .reverse();
+
             if (messPage === 1) {
-              const messages = data.reverse();
               setMessages(messages);
             } else {
-              const messages = data.reverse();
               setMessages((prevMess) => [...messages, ...prevMess]);
             }
           } else {

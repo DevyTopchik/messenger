@@ -1,15 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../assets/styles/ProfileMenu.css";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { changeUserName } from "../api/change_user_name";
+import { getUserData } from "../api/get_user_data";
 
 const ProfileMenu = ({ u_id, setIsLoginned }) => {
   const [isHover, setIsHover] = useState();
   const [userName, setUserName] = useState("Иван Иванов");
+  const [iconUrl, setIconUrl] = useState(null);
+
+  useEffect(() => {
+    getUserData(u_id).then((data) => {
+      console.log(data);
+      setUserName(data.login);
+      setIconUrl(data.iconUrl);
+    });
+  }, [u_id]);
 
   const handleNameChange = () => {
     const newName = prompt("Введите новое имя:", userName);
     if (newName !== null && newName.trim() !== "" && newName.length <= 21) {
+      // console.log(u_id, newName);
       changeUserName(u_id, newName).then((data) => {
         console.log(data);
         setUserName(newName);
@@ -23,9 +34,7 @@ const ProfileMenu = ({ u_id, setIsLoginned }) => {
     <div className="profile-menu" onClick={(e) => e.stopPropagation()}>
       <div className="top">
         <img
-          src={
-            require("../assets/images/images.png") //тут будет иконка usera
-          }
+          src={iconUrl || require("../assets/images/images.png")}
           style={{
             opacity: !isHover ? 1 : 0.5,
             transition: "all 0.5s",

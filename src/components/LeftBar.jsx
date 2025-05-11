@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import "../assets/styles/LeftBar.css";
 import Chat from "./Chat";
 import Overlay from "./Overlay";
+import { getUserData } from "../api/get_user_data";
 
 const LeftBar = ({
   u_id,
@@ -17,6 +18,7 @@ const LeftBar = ({
   const [inputChatname, setInputChatname] = useState("");
   const [isOverlayOnn, setIsOverlayOnn] = useState(false);
   const chatsContainerRef = useRef(null);
+  const [iconUrl, setIconUrl] = useState(null);
 
   useEffect(() => {
     fetchChatsCompApi(inputChatname);
@@ -56,6 +58,12 @@ const LeftBar = ({
     fetchChatsCompApi();
   }, [page]);
 
+  useEffect(() => {
+    getUserData(u_id).then((data) => {
+      setIconUrl(data.iconUrl);
+    });
+  }, [u_id]);
+
   return (
     <div className="left-block">
       <Overlay
@@ -67,9 +75,7 @@ const LeftBar = ({
 
       <div className="top-block">
         <img
-          src={
-            require("../assets/images/images.png") //тут будет иконка usera
-          }
+          src={iconUrl || require("../assets/images/images.png")}
           className="current-user-icon"
           onClick={() => {
             setIsOverlayOnn((prevState) => !prevState);
