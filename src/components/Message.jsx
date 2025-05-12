@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdModeEdit } from "react-icons/md";
 import "../assets/styles/Message.css";
-import { editMessage } from "../api/edit_message";
+import { webSocketService } from "../api/wsservice";
 
 const Message = ({
   chat,
@@ -57,6 +57,20 @@ const Message = ({
     }
   }, [isEditMode]);
 
+  const handleEdit = () => {
+    const editData = {
+      id: message.id,
+      message: newMessage,
+    };
+
+    webSocketService
+      .editMessage(editData)
+      .then(() => {
+        setIsEditMode(false);
+      })
+      .catch(console.error);
+  };
+
   return (
     <div
       className={`wrapper ${!message.isFrom ? "to-wr" : "from-wr"}`}
@@ -94,14 +108,7 @@ const Message = ({
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
             />
-            <MdModeEdit
-              onClick={() => {
-                editMessage(message.id, newMessage).then((data) => {
-                  message.message = newMessage;
-                  setIsEditMode(false);
-                });
-              }}
-            />
+            <MdModeEdit onClick={handleEdit} />
           </div>
         ) : (
           <h3>{message.message}</h3>

@@ -31,10 +31,6 @@ const TopBar = ({
     if (selectedMessagesIds.length === 0 || !selectedMessagesIds[0].isFrom)
       setIsEditMode(false);
 
-    // console.log(selectedIdsLen);
-
-    // console.log(isEditMode);
-
     if (isDeleteMode) {
       setIsDeleteMode(!isDeleteMode);
     }

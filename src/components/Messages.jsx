@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../assets/styles/Messages.css";
-import { deleteMessage } from "../api/delete_message";
 import Message from "./Message";
+import { webSocketService } from "../api/wsservice";
 
 const Messages = ({
   messages,
@@ -18,6 +18,7 @@ const Messages = ({
   fetchMessagesCompApi,
   loadingMess,
   isSent,
+  u_id,
 }) => {
   const [editIndex, setEditIndex] = useState(-1);
   const messagesEndRef = useRef(null);
@@ -25,17 +26,18 @@ const Messages = ({
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const deleteMessFunction = () => {
-    messages
-      .filter((mes, index) => selectedMessagesIds.some((el) => el.id === index))
-      .forEach((mes) => {
-        deleteMessage(mes.id).then(() => {
+    selectedMessagesIds.forEach((selectedMsg) => {
+      webSocketService
+        .deleteMessage(selectedMsg.id, u_id)
+        .then(() => {
           setIsDeleteMode(false);
-        });
-      });
+        })
+        .catch(console.error);
+    });
 
     setMessages(
-      messages.filter((mes, index) =>
-        selectedMessagesIds.some((el) => el.id !== index)
+      messages.filter(
+        (mes, index) => !selectedMessagesIds.some((el) => el.id === index)
       )
     );
 

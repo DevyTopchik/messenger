@@ -4,23 +4,58 @@ import Messages from "./Messages";
 import SendMessage from "./SendMessage";
 import TopBar from "./TopBar";
 import { fetchMessages } from "../api/messages";
+import { webSocketService } from "../api/wsservice";
 
-const MainPart = ({ chat, isSent, setIsSent, setMessPage, messPage, u_id }) => {
+const RightPart = ({
+  chat,
+  isSent,
+  setIsSent,
+  setMessPage,
+  messPage,
+  u_id,
+}) => {
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedMessagesIds, setSelectedMessagesIds] = useState([]);
   const [messages, setMessages] = useState([]);
   const [loadingMess, setLoadingMess] = useState(true);
 
+  useEffect(() => {
+    if (u_id) {
+      webSocketService.connect(u_id);
+
+      webSocketService.onPrivateMessage((newMessage) => {
+        if (newMessage.chatId === chat?.chatId) {
+          setMessages((prev) => [...prev, newMessage]);
+          setIsSent(true);
+        }
+      });
+
+      webSocketService.onMessageEdited((updatedMessage) => {
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === updatedMessage.id ? updatedMessage : msg
+          )
+        );
+      });
+
+      webSocketService.onMessageDeleted(({ messageId }) => {
+        setMessages((prev) => prev.filter((msg) => msg.id !== messageId));
+      });
+
+      return () => {
+        webSocketService.disconnect();
+      };
+    }
+  }, [u_id, chat?.chatId]);
+
   const fetchMessagesCompApi = () => {
     if (chat?.chatId) {
       setLoadingMess(true);
-
       fetchMessages(u_id, chat.chatId, messPage)
         .then((data) => {
-          console.log(data);
           if (data.length) {
-            const messages = data
+            const formattedMessages = data
               .map((obj) => {
                 const date = new Date(obj.time);
                 const day = String(date.getDate()).padStart(2, "0");
@@ -35,18 +70,16 @@ const MainPart = ({ chat, isSent, setIsSent, setMessPage, messPage, u_id }) => {
               })
               .reverse();
 
-            if (messPage === 1) {
-              setMessages(messages);
-            } else {
-              setMessages((prevMess) => [...messages, ...prevMess]);
-            }
-          } else {
-            if (messPage === 1) {
-              setMessages(data);
-            }
+            setMessages((prev) =>
+              messPage === 1
+                ? formattedMessages
+                : [...formattedMessages, ...prev]
+            );
+          } else if (messPage === 1) {
+            setMessages([]);
           }
         })
-        .catch((e) => console.log(e))
+        .catch(console.error)
         .finally(() => {
           setSelectedMessagesIds([]);
           setLoadingMess(false);
@@ -92,11 +125,12 @@ const MainPart = ({ chat, isSent, setIsSent, setMessPage, messPage, u_id }) => {
         messPage={messPage}
         fetchMessagesCompApi={fetchMessagesCompApi}
         loadingMess={loadingMess}
+        u_id={u_id}
       />
 
-      <SendMessage chatId={chat?.chatId} setIsSent={setIsSent} />
+      <SendMessage chatId={chat?.chatId} setIsSent={setIsSent} u_id={u_id} />
     </div>
   );
 };
 
-export default MainPart;
+export default RightPart;

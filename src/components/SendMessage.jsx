@@ -1,31 +1,29 @@
 import React, { useState } from "react";
 import { IoSend } from "react-icons/io5";
 import "../assets/styles/SendMessage.css";
-import { sendMessage } from "../api/send_message";
+import { webSocketService } from "../api/wsservice";
 
-const SendMessage = ({ setIsSent, chatId }) => {
+const SendMessage = ({ setIsSent, chatId, u_id }) => {
   const [currentMessage, setCurrentMessage] = useState("");
 
   const sendCurrentMessage = () => {
-    if (currentMessage !== "") {
+    if (currentMessage.trim() !== "") {
       const obj = {
-        userId: localStorage.getItem("u_id"),
+        userId: u_id,
         chatId: chatId,
         message: currentMessage,
         time: new Date(),
         isFrom: true,
       };
 
-      // console.log(obj);
-
-      sendMessage(obj)
-        .then((data) => {
-          console.log(data);
+      webSocketService
+        .sendMessage(obj)
+        .then(() => {
           setIsSent(true);
+          setCurrentMessage("");
         })
-        .catch((e) => console.log(e));
+        .catch(console.error);
     }
-    setCurrentMessage("");
   };
 
   return (
@@ -44,9 +42,7 @@ const SendMessage = ({ setIsSent, chatId }) => {
       <IoSend
         className="send"
         style={{ width: 30, height: 30 }}
-        onClick={() => {
-          sendCurrentMessage();
-        }}
+        onClick={sendCurrentMessage}
       />
     </div>
   );
