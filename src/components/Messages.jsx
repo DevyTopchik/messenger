@@ -27,6 +27,7 @@ const Messages = ({
 
   const deleteMessFunction = () => {
     selectedMessagesIds.forEach((selectedMsg) => {
+      console.log(selectedMsg.id);
       webSocketService
         .deleteMessage(selectedMsg.id, u_id)
         .then(() => {
@@ -37,7 +38,7 @@ const Messages = ({
 
     setMessages(
       messages.filter(
-        (mes, index) => !selectedMessagesIds.some((el) => el.id === index)
+        (mes, index) => !selectedMessagesIds.some((el) => el.id === mes.id)
       )
     );
 
@@ -98,7 +99,7 @@ const Messages = ({
           isDeleteMode={isDeleteMode}
           isEditMode={isEditMode}
           key={index}
-          id={index}
+          id={el.id}
           message={el}
           editIndex={editIndex}
           setEditIndex={setEditIndex}

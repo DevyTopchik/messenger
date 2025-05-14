@@ -59,13 +59,16 @@ const Message = ({
 
   const handleEdit = () => {
     const editData = {
-      id: message.id,
+      userId: localStorage.getItem("u_id"),
+      messageId: message.id,
       message: newMessage,
     };
-
+    console.log(editData);
     webSocketService
       .editMessage(editData)
-      .then(() => {
+      .then((data) => {
+        message.message = newMessage;
+        // console.log(data);
         setIsEditMode(false);
       })
       .catch(console.error);

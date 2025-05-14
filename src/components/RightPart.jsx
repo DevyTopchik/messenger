@@ -55,6 +55,7 @@ const RightPart = ({
       fetchMessages(u_id, chat.chatId, messPage)
         .then((data) => {
           if (data.length) {
+            // console.log(data);
             const formattedMessages = data
               .map((obj) => {
                 const date = new Date(obj.time);

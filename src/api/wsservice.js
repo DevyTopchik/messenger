@@ -101,8 +101,8 @@ class WebSocketService {
     return this.publish("/app/editMessage", editData);
   }
 
-  deleteMessage(messageId, userId) {
-    return this.publish(`/app/deleteMessage/${messageId}`, { userId });
+  deleteMessage(id, userId) {
+    return this.publish(`/app/deleteMessage`, { id, userId });
   }
 
   publish(destination, body) {
