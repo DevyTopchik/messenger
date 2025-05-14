@@ -1,7 +1,6 @@
 import React from "react";
 import "../assets/styles/LoginForm.css";
 import { logInFetch } from "../api/log_in";
-import { hashStringSHA256 } from "../funcs/hash";
 
 const LoginForm = ({
   setIsLoginned,
@@ -21,7 +20,6 @@ const LoginForm = ({
         setIsLoginned(true);
         localStorage.setItem("isLoginned", true);
         localStorage.setItem("u_id", id);
-        hashStringSHA256(id).then((data) => localStorage.setItem("hash", data));
         setUid(id);
       })
       .catch((e) => alert(e.message));
