@@ -3,13 +3,12 @@ import { IoSend } from "react-icons/io5";
 import "../assets/styles/SendMessage.css";
 import { webSocketService } from "../api/wsservice";
 
-const SendMessage = ({ setIsSent, chatId, u_id }) => {
+const SendMessage = ({ setIsSent, chatId }) => {
   const [currentMessage, setCurrentMessage] = useState("");
 
   const sendCurrentMessage = () => {
     if (currentMessage.trim() !== "") {
       const obj = {
-        userId: u_id,
         chatId: chatId,
         message: currentMessage,
         time: new Date(),

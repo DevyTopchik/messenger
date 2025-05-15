@@ -14,6 +14,7 @@ const LeftBar = ({
   setPage,
   loadingChats,
   fetchChatsCompApi,
+  setUid,
 }) => {
   const [inputChatname, setInputChatname] = useState("");
   const [isOverlayOnn, setIsOverlayOnn] = useState(false);
@@ -60,6 +61,7 @@ const LeftBar = ({
 
   useEffect(() => {
     getUserData(u_id).then((data) => {
+      setUid(localStorage.getItem("u_id"));
       setIconUrl(data.iconUrl);
     });
   }, [u_id]);

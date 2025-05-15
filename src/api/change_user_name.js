@@ -3,9 +3,9 @@ export const changeUserName = (id, newUserName) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${id}`,
     },
     body: JSON.stringify({
-      id: id,
       newUserName: newUserName,
     }),
   })

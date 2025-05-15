@@ -8,7 +8,11 @@ class WebSocketService {
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
       debug: (str) => console.log("STOMP:", str),
+      connectHeaders: {
+        Authorization: "",
+      },
     });
+
     this.client.onWebSocketError = (error) => {
       console.error("WebSocket error:", error);
     };
@@ -25,7 +29,11 @@ class WebSocketService {
     };
   }
 
-  connect(userId) {
+  connect(jwtToken) {
+    this.client.connectHeaders = {
+      Authorization: `Bearer ${jwtToken}`,
+    };
+
     this.client.onConnect = (frame) => {
       console.log("WebSocket connected");
 
@@ -101,8 +109,8 @@ class WebSocketService {
     return this.publish("/app/editMessage", editData);
   }
 
-  deleteMessage(id, userId) {
-    return this.publish(`/app/deleteMessage`, { id, userId });
+  deleteMessage(id) {
+    return this.publish("/app/deleteMessage", { id });
   }
 
   publish(destination, body) {
@@ -115,7 +123,10 @@ class WebSocketService {
       this.client.publish({
         destination,
         body: JSON.stringify(body),
-        headers: { "content-type": "application/json" },
+        headers: {
+          "content-type": "application/json",
+          Authorization: this.client.connectHeaders.Authorization,
+        },
       });
 
       resolve({ status: "success" });

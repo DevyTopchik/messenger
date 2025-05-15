@@ -24,6 +24,10 @@ function App() {
   }, []);
 
   useEffect(() => {
+    setIsLoginned(localStorage.getItem("isLoginned") === "true");
+  }, [u_id]);
+
+  useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "purple";
     document.documentElement.setAttribute("data-theme", savedTheme);
   }, []);
@@ -42,8 +46,8 @@ function App() {
               isRegPage
                 ? registerRef
                 : isResetPasswordPage
-                ? resetRef
-                : loginRef
+                  ? resetRef
+                  : loginRef
             }
           >
             <div
@@ -51,8 +55,8 @@ function App() {
                 isRegPage
                   ? registerRef
                   : isResetPasswordPage
-                  ? resetRef
-                  : loginRef
+                    ? resetRef
+                    : loginRef
               }
             >
               {isRegPage ? (
@@ -73,7 +77,7 @@ function App() {
           </CSSTransition>
         </SwitchTransition>
       ) : (
-        <Main u_id={u_id} setIsLoginned={setIsLoginned} />
+        <Main u_id={u_id} setUid={setUid} setIsLoginned={setIsLoginned} />
       )}
     </div>
   );

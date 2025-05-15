@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
 import "../assets/styles/Main.css";
 import LeftBar from "./LeftBar";
 import RightPart from "./RightPart";
 import { fetchChats } from "../api/chats";
 
-const Main = ({ u_id, setIsLoginned }) => {
+const Main = ({ u_id, setUid, setIsLoginned }) => {
   const [chats, setChats] = useState([]);
   const [chatInd, setChatInd] = useState();
 
@@ -20,31 +20,34 @@ const Main = ({ u_id, setIsLoginned }) => {
     fetchChats(u_id, page, chatName)
       .then((data) => {
         if (data.chats.length) {
+          setUid(localStorage.getItem("u_id"));
           if (page === 1) {
             const { chats: chats_temp } = data;
-            console.log(chats_temp);
             setChats(chats_temp);
           } else {
             const { chats: chats_temp } = data;
-            console.log(chats_temp);
             setChats((prev_chats) => [...prev_chats, ...chats_temp]);
           }
-
-          // setChatInd(0);
         }
       })
       .catch((e) => console.log(e))
       .finally(() => setLoadingChats(false));
   };
 
-  useEffect(() => {
-    fetchChatsCompApi();
+  useLayoutEffect(() => {
+    const fetchData = () => {
+      fetchChatsCompApi();
+    };
+    fetchData();
   }, [u_id]);
+
+  useEffect(() => {}, [messPage]);
 
   return (
     <div className="main">
       <LeftBar
         u_id={u_id}
+        setUid={setUid}
         setChatInd={setChatInd}
         chats={chats}
         chatInd={chatInd}
@@ -57,6 +60,7 @@ const Main = ({ u_id, setIsLoginned }) => {
 
       <RightPart
         u_id={u_id}
+        setUid={setUid}
         chat={chats[chatInd]}
         isSent={isSent}
         setIsSent={setIsSent}

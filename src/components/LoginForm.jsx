@@ -12,15 +12,15 @@ const LoginForm = ({
     e.preventDefault();
     const formData = new FormData(e.target);
 
-    console.log(Object.fromEntries(formData.entries()));
-
     logInFetch(formData)
-      .then((id) => {
-        console.log(id);
+      .then((data) => {
         setIsLoginned(true);
+
+        console.log(data);
         localStorage.setItem("isLoginned", true);
-        localStorage.setItem("u_id", id);
-        setUid(id);
+        localStorage.setItem("u_id", data.accessToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
+        setUid(data.accessToken);
       })
       .catch((e) => alert(e.message));
 

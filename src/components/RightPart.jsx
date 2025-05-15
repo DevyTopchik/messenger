@@ -13,6 +13,7 @@ const RightPart = ({
   setMessPage,
   messPage,
   u_id,
+  setUid,
 }) => {
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -54,6 +55,7 @@ const RightPart = ({
       setLoadingMess(true);
       fetchMessages(u_id, chat.chatId, messPage)
         .then((data) => {
+          setUid(localStorage.getItem("u_id"));
           if (data.length) {
             // console.log(data);
             const formattedMessages = data
@@ -126,10 +128,9 @@ const RightPart = ({
         messPage={messPage}
         fetchMessagesCompApi={fetchMessagesCompApi}
         loadingMess={loadingMess}
-        u_id={u_id}
       />
 
-      <SendMessage chatId={chat?.chatId} setIsSent={setIsSent} u_id={u_id} />
+      <SendMessage chatId={chat?.chatId} setIsSent={setIsSent} />
     </div>
   );
 };

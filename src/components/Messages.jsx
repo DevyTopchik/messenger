@@ -18,7 +18,6 @@ const Messages = ({
   fetchMessagesCompApi,
   loadingMess,
   isSent,
-  u_id,
 }) => {
   const [editIndex, setEditIndex] = useState(-1);
   const messagesEndRef = useRef(null);
@@ -29,7 +28,7 @@ const Messages = ({
     selectedMessagesIds.forEach((selectedMsg) => {
       console.log(selectedMsg.id);
       webSocketService
-        .deleteMessage(selectedMsg.id, u_id)
+        .deleteMessage(selectedMsg.id)
         .then(() => {
           setIsDeleteMode(false);
         })

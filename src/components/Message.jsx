@@ -59,7 +59,6 @@ const Message = ({
 
   const handleEdit = () => {
     const editData = {
-      userId: localStorage.getItem("u_id"),
       messageId: message.id,
       message: newMessage,
     };
