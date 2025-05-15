@@ -1,7 +1,7 @@
 import { refreshToken } from "./refresh";
 
 export const fetchMessages = (userId, chatId, number) => {
-  return fetch("https://textchat-ast1.onrender.com/api/message/getMessage", {
+  return fetch("https://textchat-lo2u.onrender.com/api/message/getMessage", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export const fetchMessages = (userId, chatId, number) => {
             console.log(newToken);
             localStorage.setItem("u_id", newToken);
 
-            return fetch("https://textchat-ast1.onrender.com/api/message/getMessage", {
+            return fetch("https://textchat-lo2u.onrender.com/api/message/getMessage", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

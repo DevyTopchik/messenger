@@ -3,7 +3,7 @@ import { Client } from "@stomp/stompjs";
 class WebSocketService {
   constructor() {
     this.client = new Client({
-      brokerURL: "wss://textchat-ast1.onrender.com/ws",
+      brokerURL: "wss://textchat-lo2u.onrender.com/ws",
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,

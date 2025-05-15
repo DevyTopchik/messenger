@@ -1,5 +1,5 @@
 export const changeUserName = (id, newUserName) => {
-  return fetch("https://textchat-ast1.onrender.com/api/user/renameLogin", {
+  return fetch("https://textchat-lo2u.onrender.com/api/user/renameLogin", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

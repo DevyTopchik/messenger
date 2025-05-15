@@ -1,7 +1,7 @@
 import { refreshToken } from "./refresh";
 
 export const getUserData = (id) => {
-  return fetch("https://textchat-ast1.onrender.com/api/user/getUser", {
+  return fetch("https://textchat-lo2u.onrender.com/api/user/getUser", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${id}`,
@@ -14,7 +14,7 @@ export const getUserData = (id) => {
             console.log(newToken);
             localStorage.setItem("u_id", newToken);
 
-            return fetch("https://textchat-ast1.onrender.com/api/user/getUser", {
+            return fetch("https://textchat-lo2u.onrender.com/api/user/getUser", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

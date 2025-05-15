@@ -1,5 +1,5 @@
 export const registerFetch = (formData) => {
-  return fetch("https://textchat-ast1.onrender.com/api/auth/register", {
+  return fetch("https://textchat-lo2u.onrender.com/api/auth/register", {
     method: "POST",
     body: formData,
   })

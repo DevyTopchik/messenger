@@ -2,7 +2,7 @@
 export function refreshToken() {
     const refreshToken = localStorage.getItem("refreshToken");
 
-    return fetch("https://textchat-ast1.onrender.com/api/auth/refresh", {
+    return fetch("https://textchat-lo2u.onrender.com/api/auth/refresh", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

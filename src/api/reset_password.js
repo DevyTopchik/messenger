@@ -1,5 +1,5 @@
 export const resetFetch = (formData) => {
-  return fetch("https://textchat-ast1.onrender.com/api/auth/update-password", {
+  return fetch("https://textchat-lo2u.onrender.com/api/auth/update-password", {
     method: "POST",
     body: formData,
   })
